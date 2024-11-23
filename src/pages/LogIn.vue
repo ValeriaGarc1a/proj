@@ -1,9 +1,6 @@
 <template>
   <div class="login-page fullscreen">
     <q-page>
-      <div class="row">
-        <!-- <div class="col text-h4 text-center q-ma-md">¡Bienvenido!</div> -->
-      </div>
       <div class="row justify-center q-gutter-md">
         <q-card class="login-card">
           <q-img src="/icons/dm_logo.png" />
@@ -17,6 +14,7 @@
                   v-model="nomUsuario"
                   type="text"
                   label="Nombre de Usuario"
+                  autocomplete="off"
                 >
                   <template v-slot:prepend><q-icon name="person" /></template>
                 </q-input>
@@ -27,14 +25,16 @@
                   v-model="password"
                   :type="isPwd ? 'password' : 'text'"
                   label="Contraseña"
-                  ><template v-slot:prepend
-                    ><q-icon name="phishing"
-                  /></template>
+                  autocomplete="off"
+                >
+                  <template v-slot:prepend>
+                    <q-icon name="phishing" />
+                  </template>
                   <template v-slot:append>
                     <q-icon
                       :name="isPwd ? 'visibility_off' : 'visibility'"
                       class="cursor-pointer"
-                      @click="isPwd = !isPwd"
+                      @click="togglePasswordVisibility"
                     />
                   </template>
                 </q-input>
@@ -47,19 +47,18 @@
                 color="secondary"
                 label="Iniciar Sesión"
                 size="md"
+                @click="loginUser"
               />
-              <!-- <q-btn
-                class="full-width"
-                flat
-                color="grey"
-                label="Olvidé la
-              contraseña"
-                size="md"
-                to="/newPass"
-              /> -->
             </div>
           </q-form>
         </q-card>
+      </div>
+      <div class="q-mb-md">
+        <q-btn
+          flat
+          label="¿No tienes cuenta? Regístrate"
+          @click="goToRegister"
+        />
       </div>
     </q-page>
   </div>
@@ -67,20 +66,55 @@
 
 <script>
 import { ref } from "vue";
+import { useQuasar } from "quasar"; // Importar Quasar para notificaciones
+import { useAuthStore } from "src/stores/authStore"; // Importar la store
+import { useRouter } from "vue-router";
 
 export default {
   setup() {
+    const $q = useQuasar(); // Inicializar Quasar
+    const authStore = useAuthStore(); // Inicializar la store
+    const nomUsuario = ref("");
     const password = ref("");
     const isPwd = ref(true);
+    const router = useRouter();
+
+    const goToRegister = () => {
+      router.push("register"); // Redirige a la página de registro
+    };
 
     const togglePasswordVisibility = () => {
       isPwd.value = !isPwd.value;
     };
 
+    const loginUser = async () => {
+      try {
+        await authStore.login(nomUsuario.value, password.value);
+        // Mostrar mensaje de éxito
+        $q.notify({
+          type: "positive",
+          message: "Inicio de sesión exitoso!",
+          position: "top",
+        });
+
+        router.push("/");
+      } catch (error) {
+        // Mostrar mensaje de error
+        $q.notify({
+          type: "negative",
+          message: `Error: ${error.message || "No se pudo iniciar sesión"}`,
+          position: "top",
+        });
+      }
+    };
+
     return {
+      nomUsuario,
       password,
       isPwd,
       togglePasswordVisibility,
+      loginUser,
+      goToRegister,
     };
   },
 };
