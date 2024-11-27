@@ -43,15 +43,36 @@ export const useProductoStore = defineStore("producto", {
 
   actions: {
     //cualquier cosa para modificar informacion
-    addProducto(producto, descripcion, precio, categoria, tipoAgua) {
-      this.productos.push({
-        nombre: producto,
-        fecha: new Date(),
-        descripcion: descripcion,
-        precio: precio,
-        categoria: categoria,
-        tipoAgua: tipoAgua,
-      });
+    async addProducto(nombre, descripcion, precio, categoria, tipoAgua) {
+      try {
+        const productoData = {
+          nombre,
+          fecha: new Date().toISOString(), // Use ISO string for consistent date storage
+          descripcion,
+          precio,
+          categoria,
+          tipoAgua,
+        };
+
+        // Add to Firestore
+        const productoRef = await addDoc(
+          collection(db, "productos"),
+          productoData
+        );
+
+        // Add to local state (including Firestore-generated ID)
+        this.productos.push({
+          id: productoRef.id, // Firestore ID
+          ...productoData,
+        });
+
+        console.log(
+          "Producto agregado a Firestore y al estado local:",
+          productoData
+        );
+      } catch (error) {
+        console.error("Error al agregar el producto:", error);
+      }
     },
 
     async deleteProducto(id) {

@@ -10,13 +10,13 @@
             <q-input
               filled
               v-model="filters.nombreCliente"
-              label="Buscar por Cliente"
+              label="Cliente"
               class="q-mb-md"
             />
             <q-input
               filled
               v-model="filters.fecha"
-              label="Buscar por Fecha"
+              label="Fecha"
               type="date"
               class="q-mb-md"
             />
@@ -24,14 +24,14 @@
               filled
               v-model="filters.metodoPago"
               :options="metodoPagoOptions"
-              label="Buscar por Método de Pago"
+              label="Método de Pago"
               class="q-mb-md"
             />
             <q-select
               filled
               v-model="filters.lugarVenta"
               :options="lugarVentaOptions"
-              label="Buscar por Lugar de Venta"
+              label="Lugar de Venta"
               class="q-mb-md"
             />
             <q-btn icon="reply_all" label="Regresar" :to="'/checkout'" />
@@ -43,7 +43,7 @@
       <div class="col-10">
         <q-row class="q-gutter-md row reverse reverse-wrap justify-evenly">
           <q-card
-            v-for="factura in filteredFacturas"
+            v-for="(factura, index) in filteredFacturas"
             :key="factura.idVenta"
             class="col-12 col-sm-6 q-ma-sm"
             flat
@@ -51,7 +51,7 @@
           >
             <q-card-section>
               <div class="text-h4">
-                {{ factura.idVenta + ": $" + factura.total }}
+                {{ index + " " + ": $" + factura.total }}
               </div>
               <div class="text-subtitle2">{{ factura.fecha }}</div>
             </q-card-section>

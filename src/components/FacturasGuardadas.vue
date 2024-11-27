@@ -39,7 +39,7 @@ const facturas = computed(() => facturaStore.getFacturas);
 
 // Configuración de las columnas de la tabla
 const columns = [
-  { name: "idVenta", label: "ID Venta", align: "left", field: "idVenta" },
+  { name: "idVenta", label: "Información", align: "left", field: "idVenta" },
   {
     name: "nombreCliente",
     label: "Cliente",

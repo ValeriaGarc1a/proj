@@ -1,7 +1,7 @@
 <template>
   <q-card class="col-10">
     <div class="text-h4 q-pa-lg text-grey">Detalles de producto:</div>
-    <q-form ref="myForm" @reset="clearForm">
+    <q-form ref="formRef">
       <div class="row q-pa-xs">
         <q-card-section class="col">
           <q-input
@@ -22,16 +22,13 @@
             type="textarea"
             label="Descripción"
             hint="*Opcional"
-            :shadow-text="textareaShadowText"
-            @keydown="processTextareaFill"
-            @focus="processTextareaFill"
           >
             <template v-slot:prepend><q-icon name="edit_note" /></template>
           </q-input>
         </q-card-section>
         <q-card-section class="col">
           <q-input
-            filled=""
+            filled
             class="q-pa-xs"
             v-model="precio"
             type="number"
@@ -72,15 +69,7 @@
           color="secondary"
           icon="send"
           label="Agregar"
-          @click="
-            productoStore.addProducto(
-              nuevoProducto,
-              descripcion,
-              precio,
-              categoria,
-              tipoAgua
-            )
-          "
+          @click="submitForm"
           size="md"
         />
       </div>
@@ -91,13 +80,18 @@
 <script setup>
 import { ref } from "vue";
 import { useProductoStore } from "src/stores/ProductoStore";
+
 const productoStore = useProductoStore();
+const formRef = ref(null); // Ref for the q-form
+
+// Reactive properties
 const nuevoProducto = ref("");
 const descripcion = ref("");
-const tipoAgua = ref("");
-const categoria = ref("");
-const precio = ref("");
+const tipoAgua = ref(null); // Set to null for proper reset
+const categoria = ref(null); // Set to null for proper reset
+const precio = ref(null);
 
+// Options for selects
 const aguaOptions = ["Dulce", "Salada", "N/A"];
 const categoriaOptions = [
   "Aparejo",
@@ -108,14 +102,36 @@ const categoriaOptions = [
   "De Vestir",
 ];
 
+// Clear the form
 const clearForm = () => {
+  // Reset reactive values
   nuevoProducto.value = "";
   descripcion.value = "";
   tipoAgua.value = null;
   categoria.value = null;
   precio.value = null;
 
-  const formRef = document.querySelector("q-form");
-  formRef?.resetValidation();
+  // Reset validation using form reference
+  formRef.value.resetValidation();
+};
+
+// Submit form logic
+const submitForm = () => {
+  if (!formRef.value.validate()) {
+    console.warn("Validation failed");
+    return;
+  }
+
+  // Use store to add product
+  productoStore.addProducto(
+    nuevoProducto.value,
+    descripcion.value,
+    precio.value,
+    categoria.value,
+    tipoAgua.value
+  );
+
+  // Optionally, clear form after successful submission
+  clearForm();
 };
 </script>

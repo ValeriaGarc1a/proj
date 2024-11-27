@@ -56,7 +56,6 @@ const routes = [
       {
         path: "register",
         component: () => import("src/pages/RegisterPage.vue"),
-        
       },
       {
         path: "newPass",

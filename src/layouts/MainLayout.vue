@@ -19,6 +19,7 @@
         <q-route-tab to="/checkout" label="CheckOut" />
         <q-route-tab to="/registro_de_productos" label="Productos" />
         <q-route-tab to="/registro_facturas" label="Facturas" />
+        <q-route-tab to="/register" label="Registrar" />
       </q-tabs>
     </q-header>
 
