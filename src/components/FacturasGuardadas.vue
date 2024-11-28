@@ -3,13 +3,13 @@
     <q-table
       :rows="facturas"
       :columns="columns"
-      row-key="idVenta"
+      row-key="id"
       flat
       bordered
       dense
     >
       <!-- Slot personalizado para la columna 'idVenta' -->
-      <template v-slot:body-cell-idVenta="{ row }">
+      <template v-slot:body-cell-id="{ row }">
         <div class="flex items-center">
           <!-- Mostrar el ID de la factura -->
           <!-- Botón de información -->
@@ -19,9 +19,9 @@
             icon="info"
             color="grey"
             class="q-ml-sm"
-            :to="'/factura/' + row.idVenta"
+            :to="'/factura/' + row.id"
           />
-          <span>{{ row.idVenta }}</span>
+          <span>{{ row.id }}</span>
         </div>
       </template>
     </q-table>
@@ -37,9 +37,12 @@ const facturaStore = useFacturaStore();
 // Usar el getter para obtener todas las facturas
 const facturas = computed(() => facturaStore.getFacturas);
 
+console.log("holaaa");
+console.log(facturas);
+
 // Configuración de las columnas de la tabla
 const columns = [
-  { name: "idVenta", label: "Información", align: "left", field: "idVenta" },
+  { name: "id", label: "Información", align: "left", field: "idVenta" },
   {
     name: "nombreCliente",
     label: "Cliente",

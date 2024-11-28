@@ -20,23 +20,28 @@ export const useFacturaStore = defineStore("factura", {
     },
 
     obtenerFacturaPorIdVenta(state) {
-      return (id) =>
-        state.facturas.find((factura) => factura.idVenta === id) || null;
+      return (id) => {
+        console.log("Buscando factura con idVenta:", id);
+        console.log("Facturas disponibles:", state.facturas); // Muestra las facturas cargadas
+        return state.facturas.find((factura) => factura.id === id) || null;
+      };
     },
   },
 
   actions: {
     // Cargar todas las facturas desde Firestore
     async loadFacturas() {
-      try {
-        const facturasSnapshot = await getDocs(collection(db, "facturas"));
-        this.facturas = facturasSnapshot.docs.map((doc) => ({
-          id: doc.id, // Incluye el ID único del documento
-          ...doc.data(), // Incluye el resto de los datos del documento
-        }));
-        console.log("Facturas cargadas:", this.facturas);
-      } catch (error) {
-        console.error("Error al cargar facturas:", error);
+      if (this.facturas.length === 0) {
+        try {
+          const facturasSnapshot = await getDocs(collection(db, "facturas"));
+          this.facturas = facturasSnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          console.log("Facturas cargadas:", this.facturas);
+        } catch (error) {
+          console.error("Error al cargar facturas:", error);
+        }
       }
     },
 

@@ -21,6 +21,7 @@
           dense
         />
       </q-card-section>
+
       <q-card-section>
         <h5>Detalles de la Compra</h5>
         <div class="q-mb-md">
@@ -39,26 +40,47 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useFacturaStore } from "src/stores/FacturaStore";
 
 const route = useRoute();
 const facturaStore = useFacturaStore();
 
-// Obtener el idVenta desde la ruta
-const idVenta = Number(route.params.idVenta);
+const idVenta = route.params.idVenta;
+const factura = ref(null); // Usamos ref para almacenar la factura
 
-// Obtener datos de la factura
-const factura = facturaStore.obtenerFacturaPorIdVenta(idVenta);
+onMounted(async () => {
+  // Cargar las facturas si no se han cargado
+  if (facturaStore.facturas.length === 0) {
+    await facturaStore.loadFacturas(); // Carga las facturas desde Firebase
+  }
 
-// Asignar datos de la factura a las variables reactivas
-const nombreCliente = ref(factura?.nombreCliente || "N/A");
-const fecha = ref(factura?.fecha || "N/A");
-const metodoPago = ref(factura?.metodoPago || "N/A");
-const lugarVenta = ref(factura?.lugarVenta || "N/A");
-const total = ref(factura?.total || 0);
-const items = ref(factura?.items || []);
+  // Esperar hasta que las facturas estén cargadas
+  factura.value = facturaStore.obtenerFacturaPorIdVenta(idVenta);
+
+  if (factura.value) {
+    console.log(factura.value); // Verifica si la factura fue encontrada
+  } else {
+    console.log("Factura no encontrada.");
+  }
+
+  // Asignar datos de la factura a las variables reactivas
+  nombreCliente.value = factura.value?.nombreCliente || "N/A";
+  fecha.value = factura.value?.fecha || "N/A";
+  metodoPago.value = factura.value?.metodoPago || "N/A";
+  lugarVenta.value = factura.value?.lugarVenta || "N/A";
+  total.value = factura.value?.total || 0;
+  items.value = factura.value?.items || [];
+});
+
+// Variables reactivas
+const nombreCliente = ref("N/A");
+const fecha = ref("N/A");
+const metodoPago = ref("N/A");
+const lugarVenta = ref("N/A");
+const total = ref(0);
+const items = ref([]);
 
 // Definir las columnas de la tabla
 const columns = [
