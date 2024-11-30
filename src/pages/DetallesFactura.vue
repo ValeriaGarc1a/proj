@@ -3,7 +3,9 @@
     <q-card class="q-ma-xl" flat bordered>
       <!-- Encabezado -->
       <q-card-section>
-        <div class="text-h4">{{ idVenta + ": $" + total }}</div>
+        <div>
+          <div class="text-h4">{{ idVenta + ": $" + total }}</div>
+        </div>
         <div class="text-subtitle2">{{ fecha }}</div>
       </q-card-section>
 
@@ -33,7 +35,7 @@
 
       <!-- Botón para regresar -->
       <q-card-section>
-        <q-btn icon="reply_all" label="Regresar" :to="'/checkout'" />
+        <q-btn icon="reply_all" label="Regresar" :to="'/'" />
       </q-card-section>
     </q-card>
   </q-page>

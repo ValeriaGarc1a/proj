@@ -10,7 +10,7 @@
     >
       <!-- Slot personalizado para la columna 'idVenta' -->
       <template v-slot:body-cell-id="{ row }">
-        <div class="flex items-center">
+        <div class="flex flex-center items-center">
           <!-- Mostrar el ID de la factura -->
           <!-- Botón de información -->
           <q-btn
@@ -19,9 +19,9 @@
             icon="info"
             color="grey"
             class="q-ml-sm"
-            :to="'/factura/' + row.id"
+            :to="'factura/' + row.id"
           />
-          <span>{{ row.id }}</span>
+          <!-- <span>{{ row.id }}</span> -->
         </div>
       </template>
     </q-table>
@@ -37,19 +37,25 @@ const facturaStore = useFacturaStore();
 // Usar el getter para obtener todas las facturas
 const facturas = computed(() => facturaStore.getFacturas);
 
-console.log("holaaa");
 console.log(facturas);
 
 // Configuración de las columnas de la tabla
 const columns = [
-  { name: "id", label: "Información", align: "left", field: "idVenta" },
+  { name: "id", label: "Información", align: "center", field: "idVenta" },
   {
     name: "nombreCliente",
     label: "Cliente",
     align: "left",
     field: "nombreCliente",
+    sortable: true,
   },
-  { name: "fecha", label: "Fecha", align: "center", field: "fecha" },
+  {
+    name: "fecha",
+    label: "Fecha",
+    align: "left",
+    field: "fecha",
+    format: (val) => new Date(val).toLocaleDateString(),
+  },
   {
     name: "metodoPago",
     label: "Método de Pago",

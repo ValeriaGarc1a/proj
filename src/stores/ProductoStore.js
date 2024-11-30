@@ -47,7 +47,7 @@ export const useProductoStore = defineStore("producto", {
       try {
         const productoData = {
           nombre,
-          fecha: new Date().toISOString(), // Use ISO string for consistent date storage
+          fecha: new Date(), // Use ISO string for consistent date storage
           descripcion,
           precio,
           categoria,

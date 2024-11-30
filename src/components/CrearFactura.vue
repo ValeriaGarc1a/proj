@@ -11,7 +11,7 @@
           use-input
           input-debounce="300"
           label="Buscar y seleccionar producto"
-          :options="options"
+          :options="filteredOptions"
           @filter="filterFn"
           behavior="menu"
         >
@@ -170,9 +170,11 @@ const options = computed(() =>
 );
 
 // Filtro del buscador
+const filteredOptions = ref([]);
+
 function filterFn(val, update) {
   update(() => {
-    options.value = productoStore.productos
+    filteredOptions.value = productoStore.productos
       .filter((producto) =>
         producto.nombre.toLowerCase().includes(val.toLowerCase())
       )
@@ -258,7 +260,7 @@ function confirmarCompra() {
       total: (item.precio * item.cantidad).toFixed(2),
     })),
     total: total.value,
-    fecha: new Date().toLocaleDateString(),
+    fecha: new Date(),
   };
 
   facturaStore.agregarFactura(nuevaFactura);

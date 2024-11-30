@@ -1,5 +1,5 @@
 <template>
-  <div class="login-page fullscreen">
+  <div class="login-page fullscreen bg-dark">
     <q-page>
       <div class="row justify-center q-gutter-md">
         <q-card class="login-card">
@@ -53,13 +53,13 @@
           </q-form>
         </q-card>
       </div>
-      <div class="q-mb-md">
+      <!-- <div class="q-mb-md">
         <q-btn
           flat
           label="¿No tienes cuenta? Regístrate"
           @click="goToRegister"
         />
-      </div>
+      </div> -->
     </q-page>
   </div>
 </template>
@@ -126,7 +126,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #b7ec97 0%, #f9a879 100%);
 }
 
 .login-card {

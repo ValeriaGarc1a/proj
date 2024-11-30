@@ -3,12 +3,12 @@
     <CrearFactura />
     <q-section>
       <DetallesFactura />
-      <FacturasGuardadas />
+      <ListaFacturas />
     </q-section>
   </q-page>
 </template>
 
 <script setup>
 import CrearFactura from "src/components/CrearFactura.vue";
-import FacturasGuardadas from "src/components/FacturasGuardadas.vue";
+import ListaFacturas from "src/components/ListaFacturas.vue";
 </script>

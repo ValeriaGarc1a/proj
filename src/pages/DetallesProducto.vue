@@ -16,7 +16,7 @@
         </div>
       </q-card-section>
       <q-card-section>
-        <q-btn icon="reply_all" label="Regresar" :to="'/'" />
+        <q-btn icon="reply_all" label="Regresar" :to="'/productos'" />
       </q-card-section>
     </q-card>
   </q-page>

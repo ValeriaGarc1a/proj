@@ -34,11 +34,17 @@ export const useFacturaStore = defineStore("factura", {
       if (this.facturas.length === 0) {
         try {
           const facturasSnapshot = await getDocs(collection(db, "facturas"));
-          this.facturas = facturasSnapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-          console.log("Facturas cargadas:", this.facturas);
+          this.facturas = facturasSnapshot.docs.map((doc) => {
+            const data = doc.data();
+            return {
+              id: doc.id,
+              ...data,
+              fecha: data.fecha?.seconds
+                ? new Date(data.fecha.seconds * 1000)
+                : data.fecha, // Si no es Timestamp, se mantiene como está.
+            };
+          });
+          console.log("Facturas cargadas y transformadas:", this.facturas);
         } catch (error) {
           console.error("Error al cargar facturas:", error);
         }
@@ -51,10 +57,15 @@ export const useFacturaStore = defineStore("factura", {
         const facturasRef = collection(db, "facturas");
         const facturaCreada = await addDoc(facturasRef, nuevaFactura);
 
-        // Agregar la factura localmente con el ID generado por Firestore
+        // Formatea la fecha antes de agregarla localmente
         this.facturas.push({
           id: facturaCreada.id,
           ...nuevaFactura,
+          fecha: nuevaFactura.fecha?.seconds
+            ? new Date(nuevaFactura.fecha.seconds * 1000).toLocaleDateString(
+                "es-ES"
+              )
+            : nuevaFactura.fecha,
         });
         console.log("Factura agregada correctamente:", facturaCreada.id);
       } catch (error) {

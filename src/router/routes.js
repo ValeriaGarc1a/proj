@@ -15,7 +15,7 @@ const routes = [
     component: () => import("layouts/MainLayout.vue"),
     children: [
       {
-        path: "",
+        path: "productos",
         component: () => import("pages/IndexPage.vue"),
         beforeEnter: requireAuth,
       },
@@ -30,13 +30,13 @@ const routes = [
         beforeEnter: requireAuth,
       },
       {
-        path: "checkout",
+        path: "",
         component: () => import("src/pages/CheckOut.vue"),
         beforeEnter: requireAuth,
       },
       {
         path: "facturas",
-        component: () => import("src/components/FacturasGuardadas.vue"),
+        component: () => import("src/components/ListaFacturas.vue"),
         beforeEnter: requireAuth,
       },
       {
@@ -56,10 +56,6 @@ const routes = [
       {
         path: "register",
         component: () => import("src/pages/RegisterPage.vue"),
-      },
-      {
-        path: "newPass",
-        component: () => import("src/pages/NewPass.vue"),
       },
     ],
   },

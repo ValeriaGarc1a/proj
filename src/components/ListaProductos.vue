@@ -11,7 +11,6 @@
         row-key="i"
         flat
         bordered
-        title="Productos"
         dense
         clickable
       >

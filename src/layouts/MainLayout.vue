@@ -14,12 +14,22 @@
           <img src="/icons/dm_logo.png" />
         </q-avatar>
         <q-toolbar-title> Punto de Venta DonMike </q-toolbar-title>
+
+        <q-btn
+          align="right"
+          flat
+          dense
+          icon="logout"
+          label="Cerrar sesión"
+          to="/login"
+          @click="authStore.logout()"
+        />
       </q-toolbar>
       <q-tabs align="left">
-        <q-route-tab to="/checkout" label="CheckOut" />
+        <q-route-tab to="/" label="CheckOut" />
         <q-route-tab to="/registro_de_productos" label="Productos" />
         <q-route-tab to="/registro_facturas" label="Facturas" />
-        <q-route-tab to="/register" label="Registrar" />
+        <q-route-tab to="/register" label="Registrar Usuario" />
       </q-tabs>
     </q-header>
 
@@ -42,8 +52,12 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
+
+import { useAuthStore } from "src/stores/authStore";
 import EssentialLink from "components/EssentialLink.vue";
+
+const authStore = useAuthStore();
 const leftDrawerOpen = ref(false);
 
 defineOptions({
@@ -61,14 +75,9 @@ const linksList = [
     title: "Agregar producto",
     caption: "Agregue productos al registro.",
     icon: "bookmark_add",
-    link: "/",
+    link: "#/productos",
   },
-  {
-    title: "CheckOut",
-    caption: "Registrar venta.",
-    icon: "receipt_long",
-    link: "#/checkout",
-  },
+
   {
     title: "Facturas",
     caption: "Registros de ventas.",
