@@ -29,7 +29,6 @@
         <q-route-tab to="/" label="CheckOut" />
         <q-route-tab to="/registro_de_productos" label="Productos" />
         <q-route-tab to="/registro_facturas" label="Facturas" />
-        <q-route-tab to="/register" label="Registrar Usuario" />
       </q-tabs>
     </q-header>
 
@@ -65,30 +64,35 @@ defineOptions({
 });
 
 const linksList = [
-  {
-    title: "Docs",
-    caption: "quasar.dev",
-    icon: "school",
-    link: "https://quasar.dev",
-  },
+  // {
+  //   title: "Docs",
+  //   caption: "quasar.dev",
+  //   icon: "school",
+  //   link: "https://quasar.dev",
+  // },
   {
     title: "Agregar producto",
     caption: "Agregue productos al registro.",
     icon: "bookmark_add",
-    link: "#/productos",
+    to: "/productos",
   },
-
+  {
+    title: "Agregar usuario",
+    caption: "Registre a un nuevo usuario.",
+    icon: "person_add",
+    to: "/register",
+  },
   {
     title: "Facturas",
     caption: "Registros de ventas.",
     icon: "dashboard",
-    link: "#/registro_facturas",
+    to: "/registro_facturas",
   },
   {
     title: "Productos",
     caption: "Productos almacenados.",
     icon: "inventory_2",
-    link: "#/registro_de_productos",
+    to: "/registro_de_productos",
   },
 ];
 

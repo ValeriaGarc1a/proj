@@ -1,7 +1,7 @@
 <template>
   <q-card class="col-12">
     <q-card-section>
-      <div class="text-h6">Productos Registrados</div>
+      <div class="text-h6">Listado de Productos</div>
     </q-card-section>
 
     <div class="q-pa-md">
